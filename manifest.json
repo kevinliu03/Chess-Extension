@@ -1,0 +1,34 @@
+{
+    "manifest_version": 3,
+    "name": "Your Extension Name",
+    "version": "1.0",
+    "description": "Description of your extension",
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icons/icons/chess48.jpg"
+    },
+    "icons": {
+        "16": "icons/icons/chess16.jpg",
+        "48": "icons/icons/chess48.jpg",
+        "128": "icons/icons/chess128.jpg"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.chess.com/*",
+                "https://lichess.org/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ]
+}
