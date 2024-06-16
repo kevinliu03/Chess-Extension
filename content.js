@@ -30,12 +30,12 @@ async function createButtonInPopup() {
     var labelSpan = document.createElement("span");
 
     button.setAttribute("type", "button");
-    button.setAttribute("aria-label", "Better Analysis");
+    button.setAttribute("aria-label", "Lichess Import");
     button.setAttribute("data-click-spam-id", "7");
 
     iconSpan.setAttribute("aria-hidden", "true");
 
-    labelSpan.textContent = "Better Analysis";
+    labelSpan.textContent = "Lichess Import";
 
     button.classList.add("ui_v5-button-component", "ui_v5-button-basic");
     iconSpan.classList.add("ui_v5-button-icon", "icon-font-chess", "chess-board-search");
@@ -104,6 +104,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         createButtonInPopup();
     }
     if (message.action === "updatePGN") {
-        lichessImport()
+        lichessImport();
     }
 });
