@@ -11,9 +11,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         if (tab.url.startsWith("https://lichess.org/analysis")) {
             if (!previousUrl.startsWith("https://lichess.org/analysis")) {
                 chrome.tabs.sendMessage(tabId, { action: "updatePGN" });
+            } else if (tab.url == "https://lichess.org/analysis") {
+                chrome.tabs.sendMessage(tabId, { action: "updatePGN" });
             } else {
                 console.log("Same website");
             }
+
         }
         previousUrl = tab.url;
     }

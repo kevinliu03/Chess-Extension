@@ -22,6 +22,14 @@ function elementWait(selector) {
     });
 }
 
+async function checkIfButtonIsMade() {
+    const element = document.querySelector('.game-review-buttons-component .game-review-buttons-review .game-review-buttons-button');
+    console.log("Element checking");
+    console.log(element);
+    console.log(element == null);
+    return element ==  null;
+}
+
 // Creates the button in the chess.com
 async function createButtonInPopup() {
     const reviewButtonsComponent = await elementWait('.game-review-buttons-component');
@@ -61,9 +69,6 @@ async function grabPGN() {
     (await elementWait(".share-menu-tab-selector-component .share-menu-tab-selector-tab")).click();
     pgn = (await elementWait("textarea[name=pgn]")).value;
     (await elementWait('#share-modal button[aria-label="Close"]')).click();
-    if (pgn != "") {
-        pgnFound = true;
-    }
 
     chrome.storage.sync.set({ "pgnKey": pgn }, function () {
         console.log(`PGN was added\n${pgn}`);
@@ -88,12 +93,13 @@ async function lichessImport() {
 
     chrome.storage.sync.get(['pgnKey'], function (result) {
         pgnTextarea.value = result.pgnKey;
-        console.log(pgnTextarea.value);
+        console.log(`The data that is being stored is ${result.pgnKey}`);
         (document.querySelector(".copyables .pgn .pair .button")).click();
     });
-    
-    console.log("Button was clicked");
+
+    console.log("Button was` clicked");
     chrome.storage.sync.remove("pgnKey", function () {
+        console.log(`Text is ${pgn}`);
         console.log("Removed pgn");
     });
 }
@@ -101,7 +107,9 @@ async function lichessImport() {
 // Listeners to recieve messages from background.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "createButton") {
-        createButtonInPopup();
+        if (checkIfButtonIsMade()) {
+            createButtonInPopup();
+        }
     }
     if (message.action === "updatePGN") {
         lichessImport();
